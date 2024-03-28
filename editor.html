@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title id="titleDisplay" >NatsukiLab - version 1.0</title>
+      <!-- เพิ่ม script tags สำหรับ preloader.js และ main.js -->
+      <script src="./preloader.js"></script>
+      <script src="./main.js"></script>
+    
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=goHcA5F48331Tt2_P64Np1eL4w3MJQ71gcsLMipbhWUx-v1AcIeebgyQccAGrXSiKF-W9sanqZlWIIdeHq6Pwzveif-YYY2SM4g2k_jcZByLVM4O8UMiP8ho82qdH82T5599ZlIEMulj8KvhCrde6tf_Nent3OXOTACc0YEWjVPIy_0V4ALm-ZhUwH8wECU0FCb0Aj5OuM6uYjY7h-odV1qLFDSWItquEooIuN8mQfaMHVS1EsoliJYm2EI8BXmwlqX9wLyKATtA7tjSp8IvGA" charset="UTF-8"></script><style>
+    html, body {
+      overflow: hidden;
+    }
+
+    body {
+      background-color: rgb(255, 255, 255);
+      background-size: contain;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: block;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      background-color: rgb(255, 255, 255); /* สีพื้นหลังของพื้นที่ลากไฟล์ */
+      text-align: center;
+      width: 100%;
+      height: 10%;
+      display: inline-block;
+      align-items: center;
+}
+
+
+    .container {
+      display: flex;
+      align-items: flex-start;
+      height: 100vh;
+      width: 100%;
+      padding: 2px;
+      box-sizing: border-box;
+    }
+
+    .image-container,
+    .editor-container {
+      flex: 1;
+      background: url('') no-repeat center;
+      background-size: contain;
+      padding: 1px; /* Add some padding for better layout */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Vertically center content */
+    }
+
+    .image {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .editor-container {
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Vertically center content */
+      height: 85%; /* Fit to the full screen */
+
+    }
+
+    .editor {
+      width: 96%; /* Fit to the full screen */
+      height: 100%; /* Fit to the full screen */
+      font-family: monospace;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      resize: none; /* Prevent resizing */
+    }
+
+    .slider-editor {
+  width: 96%;
+  height: 100%;
+  font-family: monospace;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+  margin: auto;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  position: relative;
+  overflow: hidden;
+  display: flex; /* เพิ่มบรรทัดนี้ */
+  flex-direction: column; /* เพิ่มบรรทัดนี้ */
+}
+
+
+ 
+
+
+
+    label {
+      font-family: "Arial", sans-serif;
+      font-size: 14px;
+    }
+
+    input[type="text"] {
+      display: none; /* Hide all input elements */
+    }
+
+    button[type="submit"] {
+      display: none; /* Hide all submit buttons */
+    }
+
+    /* Style for the buttons */
+    button {
+  background-color: rgb(253, 81, 167);
+  border: 2px solid rgb(253, 81, 167);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
+  size: 10%;
+  
+}
+
+#back-button{
+  float: left;
+  margin: 0.5%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+  margin-left: 0.9%;
+}
+
+#autosave-button , #save-button, #save-as-button {
+  float: right;
+  margin: 0.5%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+}
+
+#upload-button {
+  background-color: rgb(245, 245, 245);
+    color: black;
+    border: 2px solid #ccc;
+  float: right;
+  margin: 0.5%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+
+}
+
+#easymode-button {
+  float: center;
+  margin: 0.5%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+
+}
+
+#codemode-button {
+  float: center;
+  margin: 0.5%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+
+}
+
+
+button:hover {
+  background-color: rgb(245, 62, 153); /* เลือกสีที่คุณต้องการเมื่อ hover */
+}
+
+#upload-button:hover  {
+  background-color: #cccccc97; /* เลือกสีที่คุณต้องการเมื่อ hover */
+}
+
+/* เพิ่มสไตล์สำหรับปุ่มที่ไม่ได้ถูกกด */
+.button-active {
+  background-color: rgb(246, 94, 173);
+  color: white;
+  padding: 10px;
+  border: 2px solid rgb(217, 210, 213);
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+.button-disabled {
+    background-color: rgb(245, 245, 245);
+    color: black;
+    border: 2px solid #ccc;
+    
+}
+
+.autosave-button-active {
+  background-color: rgb(64, 122, 73);
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+.autosave-button-disabled {
+    background-color: rgb(123, 123, 123);
+    color: rgb(245, 245, 245); 
+    
+}
+
+.button-disabled:hover {
+  background-color: #cccccc97;
+  color:rgb(0, 0, 0);
+  border: 2px solid #cccccc97; 
+}
+
+
+.slider-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  size-adjust: 10px 10px 10px 10px;
+}
+
+.slider-text{
+  float: left;
+  margin-top : 3%; /* เพิ่มบรรทัดนี้เพื่อให้ปุ่ม save-as มีระยะห่างจากปุ่ม save */
+  margin-bottom: 0.01%;
+  margin-left: 0.6%;
+}
+
+    
+  </style>
+</head>
+<body>
+
+<header>
+  <button id="back-button" float="center" border = "2px solid red"> Go Back </button>
+  
+  <button id="save-button">Update File</button>
+  <button id="save-as-button">Save As New File</button>
+  <button id="autosave-button">Auto Update : Off</button>
+
+</header>
+  <!-- Action buttons -->
+  <div class="action-buttons">
+
+  </div>
+
+  <div class="container">
+    <div class="editor-container">
+      <img id="albedoImage" src="" alt="Albedo Image" class="image">
+      <div>
+        <button id="upload-button">Upload Texture Image</button>
+        <input type="file" id="fileInput" style="display: none;">
+      </div>
+      
+    </div>
+    <div class="editor-container">
+      <div justify-content = "center">
+        <button id="easymode-button" class="button-active">Simple Editor</button>
+        <button id="codemode-button" class="button-disabled">Code Editor</button>
+        
+        <!-- <button id="mixmode-button">Mixed Editors</button> -->
+      </div>
+      <textarea id="editor" class="editor"></textarea>
+      <div id="slider-editor" class="slider-editor">
+
+        <div class="slider-wrapper"> <!-- เพิ่มบรรทัดนี้ -->
+          <p class="slider-text"> Loop Num : <span id="loopNumSliderValue" >5</span></p>
+          <input type="range" id="loopNumSlider" name="loopNumSlider" min="0" max="15" step="0.1" value="5">
+        </div>
+      
+        <div class="slider-wrapper"> <!-- เพิ่มบรรทัดนี้ -->
+          <p class="slider-text"> Smoothness : <span id="smoothnessSliderValue" >5</span></p>
+          <input type="range" id="smoothnessSlider" name="smoothnessSlider" min="0" max="1" step="0.001" value="5">
+        </div>
+
+        <div class="slider-wrapper"> <!-- เพิ่มบรรทัดนี้ -->
+          <p class="slider-text"> Metalness : <span id="metalnessSliderValue" >5</span></p>
+          <input type="range" id="metalnessSlider" name="metalnessSlider" min="0" max="2" step="0.001" value="5">
+        </div>
+
+        <div class="slider-wrapper"> <!-- เพิ่มบรรทัดนี้ -->
+          <p class="slider-text"> Specular : <span id="specularSliderValue" >5</span></p>
+          <input type="range" id="specularSlider" name="specularSlider" min="0" max="5" step="0.01" value="5">
+        </div>
+
+        <div class="slider-wrapper"> <!-- เพิ่มบรรทัดนี้ -->
+          <p class="slider-text"> Occlusion : <span id="occlusionSliderValue" >5</span></p>
+          <input type="range" id="occlusionSlider" name="occlusionSlider" min="0" max="1" step="0.001" value="1">
+        </div>
+
+
+    </div>
+  </div>
+
+  <script>
+
+    window.resizeTo(735, 510);
+    const codeEditor = document.getElementById('editor');
+    const sliderEditor = document.getElementById('slider-editor');
+    let fileName = localStorage.getItem('file_name');
+    let pathString = localStorage.getItem('path_string');
+    let autosave = false;
+
+    document.getElementById('titleDisplay').textContent = 'Now editing : ' + fileName;
+    document.getElementById('autosave-button').classList.remove('autosave-button-active');       
+    document.getElementById('autosave-button').classList.add('autosave-button-disabled'); 
+
+
+  const loopNumSlider = document.getElementById('loopNumSlider');
+  const loopNumSliderValueDisplay = document.getElementById('loopNumSliderValue');
+
+  const smoothnessSlider = document.getElementById('smoothnessSlider');
+  const smoothnessSliderValueDisplay = document.getElementById('smoothnessSliderValue');
+
+  const metalnessSlider = document.getElementById('metalnessSlider');
+  const metalnessSliderValueDisplay = document.getElementById('metalnessSliderValue');
+
+  const specularSlider = document.getElementById('specularSlider');
+  const specularSliderValueDisplay = document.getElementById('specularSliderValue');
+
+  const occlusionSlider = document.getElementById('occlusionSlider');
+  const occlusionSliderValueDisplay = document.getElementById('occlusionSliderValue');
+
+
+    // แสดงที่อยู่ของไฟล์และแสดงรูปภาพ
+    if (pathString) {
+      // ตัดชื่อไฟล์.fx ออก
+      const directory = pathString.replace(/\\/g, '/').replace(/\/[^/]*$/, ''); // ตัดชื่อไฟล์.fx ออก
+
+    // Load .fx code from localStorage and display it in the textarea
+    const fxCode = localStorage.getItem('material_fx');
+    if (fxCode) {
+      codeEditor.value = fxCode;
+    }
+
+    // Buttons Land -------------------------------------------------------------------------------------
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+        });
+
+        // เพิ่ม event listener สำหรับปุ่ม Save และ Save As
+        document.getElementById('save-button').addEventListener('click', () => {
+            const data = document.getElementById('editor').value;
+            electron.saveFile(data, localStorage.getItem('path_string') , 'save' ,fileName);
+        });
+
+        document.getElementById('save-as-button').addEventListener('click', () => {
+            const data = document.getElementById('editor').value;
+            electron.saveFile(data, null , 'save as',fileName.replace('.fx',' alt version.fx'));
+        });
+
+        document.getElementById('autosave-button').addEventListener('click', () => {
+          if (autosave) {
+            document.getElementById('autosave-button').classList.remove('autosave-button-active');       
+            document.getElementById('autosave-button').classList.add('autosave-button-disabled'); 
+            autosave = false;
+            document.getElementById('autosave-button').textContent = 'Auto Update : Off';
+
+          } else {
+            document.getElementById('autosave-button').classList.remove('autosave-button-disabled'); 
+            document.getElementById('autosave-button').classList.add('autosave-button-active');
+            autosave = true;
+            document.getElementById('autosave-button').textContent = 'Auto Update : On';
+          }
+        });
+        
+
+
+        document.getElementById('upload-button').addEventListener('click', () => {
+  // เรียกใช้ฟังก์ชันเมื่อปุ่มถูกคลิก
+  openImageDialog();
+});
+
+// ฟังก์ชันเพื่อเปิดหน้าต่างเลือกรูปภาพ
+function openImageDialog() {
+  // สร้าง input element แบบ file
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+
+  // เพิ่ม event listener สำหรับการเลือกรูปภาพ
+  input.addEventListener('change', handleImageSelect);
+
+  // ทำการคลิกที่ input element
+  input.click();
+
+  // ทำลาย input element เพื่อไม่ให้สร้าง input element ซ้ำ
+  input.remove();
+}
+
+// ฟังก์ชันเพื่อจัดการเมื่อเลือกรูปภาพ
+function handleImageSelect(event) {
+  const file = event.target.files[0];
+
+  if (file) {
+    // อ่านข้อมูลจากไฟล์รูปภาพและแสดงผลในหน้าต่างของคุณ
+    displaySelectedImage(file);
+
+    // เพิ่มส่วนเพื่อบันทึกรูปที่อัปโหลดไว้ที่ path ที่กำหนด
+    const imageName = file.name;
+    const imagePath = `${directory}/${imageName}`;
+    const canvas = document.createElement('canvas');
+
+
+    // เรียกใช้ฟังก์ชันเพื่อบันทึกรูปภาพ
+    electron.saveFile(file.path , imagePath , 'save-img' ,imageName);
+
+
+    const matches = document.getElementById('editor').value.match(/#define ALBEDO_MAP_FILE "(.*?)"/);
+
+      if (matches) {
+        const oldAlbedoMapFile = matches[1];
+        const newAlbedoMapFile = imageName;
+
+        document.getElementById('editor').value = document.getElementById('editor').value.replace( '#define ALBEDO_MAP_FILE "'+oldAlbedoMapFile,'#define ALBEDO_MAP_FILE "'+newAlbedoMapFile );
+        alert('If the texture not update in  MMD screen. please click on "Update File" Button.');
+        const data = document.getElementById('editor').value;
+        electron.saveFile(data, localStorage.getItem('path_string') , 'save' ,fileName);
+        
+      
+      }
+
+
+
+  }
+}
+
+
+
+// ฟังก์ชันเพื่อแสดงรูปภาพที่เลือก
+function displaySelectedImage(file) {
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const imageUrl = e.target.result;
+
+    // แสดงรูปภาพในหน้าต่างของคุณ
+    const image = document.getElementById('albedoImage');
+    image.src = imageUrl;
+
+    // เปลี่ยน background ของ container ด้วยรูปภาพที่เลือก
+    const imageContainer = document.querySelector('.image-container');
+    imageContainer.style.backgroundImage = `url('${imageUrl}')`;
+  };
+
+  // อ่านข้อมูลจากไฟล์รูปภาพ
+  reader.readAsDataURL(file);
+}
+
+
+
+
+        codeEditor.style.display = 'none';
+        document.getElementById('easymode-button').addEventListener('click', () => {
+        codeEditor.style.display = 'none';
+        sliderEditor.style.display = 'block';
+
+        document.getElementById('easymode-button').classList.add('button-active');
+        document.getElementById('easymode-button').classList.remove('button-disabled');
+
+        document.getElementById('codemode-button').classList.add('button-disabled');
+        document.getElementById('codemode-button').classList.remove('button-active');
+});
+
+        document.getElementById('codemode-button').addEventListener('click', () => {
+        codeEditor.style.display = 'block';
+        sliderEditor.style.display = 'none';
+
+        document.getElementById('codemode-button').classList.add('button-active');
+        document.getElementById('codemode-button').classList.remove('button-disabled');
+
+        document.getElementById('easymode-button').classList.add('button-disabled');
+        document.getElementById('easymode-button').classList.remove('button-active'); 
+});
+
+      //Slider Land -----------------------------------------------------------------
+
+    function sliderChangeUpdate(SliderValueDisplay, Slider ,keyword) {
+      
+      const oldSliderValue = SliderValueDisplay.innerText;
+      const newSliderValue = Slider.value;
+      SliderValueDisplay.textContent = newSliderValue;
+      // alert('old =' + oldSliderValue + ' New =' + newSliderValue);
+      
+      document.getElementById('editor').value = document.getElementById('editor').value.replace(keyword+oldSliderValue , keyword+newSliderValue);
+      const data = document.getElementById('editor').value;
+      if (autosave) {
+      electron.saveFile(data, localStorage.getItem('path_string') , 'save' ,fileName);
+      }
+    }
+
+    function sliderSetValue(SliderValueDisplay, Slider , regularExp) {
+      const loopNumMatches = fxCode.match(regularExp);
+      if (loopNumMatches) {
+        
+        SliderValueDisplay.textContent = loopNumMatches[1].replace(' ','');
+        Slider.value = loopNumMatches[1].replace(' ','');
+      }}
+
+
+
+      sliderSetValue(loopNumSliderValueDisplay,loopNumSlider,/const float2 albedoMapLoopNum =(.*?);/);
+      sliderSetValue(smoothnessSliderValueDisplay,smoothnessSlider,/const float smoothness =(.*?);/);
+      sliderSetValue(metalnessSliderValueDisplay,metalnessSlider,/const float metalness =(.*?);/);
+      sliderSetValue(specularSliderValueDisplay,specularSlider,/const float3 specular =(.*?);/);
+      sliderSetValue(occlusionSliderValueDisplay,occlusionSlider,/const float occlusion =(.*?);/);
+
+        // เพิ่ม event listener สำหรับการเปลี่ยนค่าของ loopNumSlider
+  loopNumSlider.addEventListener('input', () => {
+   
+    sliderChangeUpdate(loopNumSliderValueDisplay,loopNumSlider,'albedoMapLoopNum = ');
+    
+  });
+
+  smoothnessSlider.addEventListener('input', () => {
+   
+   sliderChangeUpdate(smoothnessSliderValueDisplay,smoothnessSlider,'smoothness = ');
+
+ });
+
+ metalnessSlider.addEventListener('input', () => {
+   
+   sliderChangeUpdate(metalnessSliderValueDisplay,metalnessSlider,'metalness = ');
+
+ });
+
+ specularSlider.addEventListener('input', () => {
+   
+   sliderChangeUpdate(specularSliderValueDisplay,specularSlider,'specular = ');
+
+ });
+
+ occlusionSlider.addEventListener('input', () => {
+   
+   sliderChangeUpdate(occlusionSliderValueDisplay,occlusionSlider,'occlusion = ');
+
+ });
+      // ดึงชื่อไฟล์รูปภาพจาก #define ALBEDO_MAP_FILE
+      const matches = fxCode.match(/#define ALBEDO_MAP_FILE "(.*?)"/);
+      if (matches) {
+        const albedoMapFile = matches[1];
+        const imageUrl = `file:///${directory}/${albedoMapFile}`;
+        const image = document.querySelector('.image');
+        const imageContainer = document.querySelector('.image-container');
+        image.src = imageUrl;
+        imageContainer.style.backgroundImage = `url('${imageUrl}')`;
+      }
+    }
+
+
+
+  </script>
+</body>
+</html>
+
+
+

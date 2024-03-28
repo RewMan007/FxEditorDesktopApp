@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NatsukiLab - version 1.0</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=uUt4LIIauyO-RcsdW8qhQRzxmAtFH8nKZzbVXGK9GLSTiIIwZX5fX85WssEDt5PbT_OFrbCfBtR0xnkVZkUaMFnwV4I4bvfVmMWrNaZ9Tfcdp3zJ4NBeY27KEgt3CdmSIkHRtqCtq749i7u-iXM3o40d0lR5lNanSgFmkIErJCwz8tiBgnDCxDxGvogJwYvcNzy371QbE_wzIgspnA4s2NaITJnH5UD0qAs6kksaBEKIiJSJw4CXwH1fZnpjRd0jfqjBUWH8RT53l_F6JdX2Ow" charset="UTF-8"></script><style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url('a.png') center  no-repeat; ;
+      background-size: 100%;
+      left: -0;
+      background-color: #ffffff; /* สีชมพู */
+      font-family: Arial, sans-serif; /* เลือกฟอนต์ที่ดูทันสมัย */
+      color:rgb(0, 0, 0);
+
+
+    }
+    #dropzone {
+
+      padding: 20px;
+       background-color: #fff;   
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  
+      text-align: center;
+      font-size: 24px; /* ปรับขนาดตัวอักษรของข้อความหลายๆ ส่วน */
+      /* ลบ opacity และ transform ออก */
+      transition: opacity 10s; /* ใช้ transition ในการทำให้ปรากฎเป็นค่อย ๆ */
+    }
+    #dropzone img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    #dropzone p {
+      font-size: 18px; /* ปรับขนาดตัวอักษรของข้อความนี้ */
+    }
+    #buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    #open-button, #create-button {
+      background-color: rgb(253, 81, 167); /* สีปุ่ม */
+      color: #fff; /* สีตัวอักษรในปุ่ม */
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+   #open-button:hover, 
+   #create-button:hover {
+  background-color: rgb(245, 62, 153); /* เลือกสีที่คุณต้องการเมื่อ hover */
+}
+
+   /* เพิ่มสไตล์สำหรับปุ่มที่มีการลากไฟล์เหนือ dropzone */
+   #open-button.dragover {
+      transform: scale(1.05); /* เพิ่มขนาดปุ่มเล็กน้อย */
+      background-color: orange; /* สีเมื่อมีการลาก */
+   }
+
+
+  </style>
+</head>
+<body id="real_dropzone">
+  <div id="dropzone">
+    <div id="buttons"></div>
+    <b style="font-size: 24px;">Welcome To NatsukiLab</b>
+    <p>Let's see what you will cook today?</p>
+    <button id="create-button">Create New Material.fx</button>
+    <button id="open-button">Open Material.fx</button>
+    <p style="font-size: 14px;">(You can also drag and drop your material.fx file here to start editing.)</p>
+    
+  </div>
+
+  <script>
+
+window.resizeTo(920, 545);
+const dropzone = document.getElementById('real_dropzone');
+
+dropzone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropzone.classList.add('dragover');
+});
+
+dropzone.addEventListener('dragleave', () => {
+  dropzone.classList.remove('dragover');
+});
+
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  
+  const file = e.dataTransfer.files[0];
+
+  if (file.name.endsWith('.fx')) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const fxCode = event.target.result;
+      localStorage.setItem('material_fx', fxCode);
+      const fileName = file.name;
+      localStorage.setItem('file_name', fileName);
+
+      // เพิ่มบรรทัดนี้เพื่อเก็บที่อยู่ของไฟล์
+      const pathString = file.path;
+      localStorage.setItem('path_string', pathString);
+      
+      window.location.href = 'editor.html';
+    };
+    reader.readAsText(file);
+  } else {
+    alert('Please drop a Material.fx file.');
+  }
+});
+
+const openButton = document.getElementById('open-button');
+openButton.addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.fx';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const fxCode = event.target.result;
+        localStorage.setItem('material_fx', fxCode);
+
+        // เพิ่มบรรทัดนี้เพื่อเก็บที่อยู่ของไฟล์
+        const fileName = file.name; // ให้ fileName เก็บชื่อและนามสกุลของไฟล์
+        localStorage.setItem('file_name', fileName);
+
+        const pathString = file.path;
+        localStorage.setItem('path_string', pathString);
+
+        window.location.href = 'editor.html';
+      };
+      reader.readAsText(file);
+    }
+  };
+  input.click();
+});
+
+const createButton = document.getElementById('create-button');
+createButton.addEventListener('click', () => {
+  alert('This function is not complete yet :( )');
+  // ทำสิ่งที่คุณต้องการเมื่อกดปุ่ม Create New Material.fx
+});
+    window.addEventListener('load', () => {
+      const dropzone = document.getElementById('real_dropzone');
+      dropzone.style.opacity = 1;
+    });
+  </script>
+</body>
+</html>
